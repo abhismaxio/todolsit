@@ -3,13 +3,12 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const date =require(__dirname+"/date.js");
 
-// console.log(date);
 const app =express();
 
 app.set("view engine","ejs");
 
-app.use(bodyParser.urlencoded({extended:true}));           // for html ejs
-app.use(express.static("public"));             // for css
+app.use(bodyParser.urlencoded({extended:true}));           
+app.use(express.static("public"));             
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/ToDoListDB',);
@@ -42,18 +41,18 @@ const Item = mongoose.model("Item",ItemSchema)
 app.get("/",function(req ,res){   
     let day = date.getDay();
 
-    List.find({}).then((found_items)=>{                         // find item
+    List.find({}).then((found_items)=>{                         
         console.log(found_items);
         const newItem=found_items;
         if (found_items.length===0) {
-            List.insertMany(defaultItems).then(()=>{              // success
+            List.insertMany(defaultItems).then(()=>{              
                 console.log("successfully inserted");
             }).catch(()=>{
                   console.log("error");
             });
             res.redirect("/");
         }else{
-            res.render("list",{listTitle:day,newListItem:found_items});             // here is new list item
+            res.render("list",{listTitle:day,newListItem:found_items});            
         }
             
     }).catch(()=>{
@@ -63,8 +62,7 @@ app.get("/",function(req ,res){
 
 
 app.post("/",function(req,res){
-    let item_name =req.body.newItem;    // newItem is naming form on ejs
-
+    let item_name =req.body.newItem;   
     // if(req.body.list=== "work"){
     //     workItems.push(item);
     //     res.redirect("/work");
@@ -108,18 +106,6 @@ app.get("/:custom_list_name",function(req,res){
     })
 })
 
-
-// app.get("/work",function(req,res){
-//         res.render("list",{listTitle:"work list",newListItem:workItems});
-// })
-
-
-
-// app.post("/work",function(res,req){
-//     let item = req.body.newItem;
-//     workItems.push(item);
-//     res.redirect("/work");
-// })
 
 app.get("/about",function(req,res){
     res.render("about");
