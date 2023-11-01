@@ -62,18 +62,12 @@ app.get("/",function(req ,res){
 
 
 app.post("/",function(req,res){
-    let item_name =req.body.newItem;   
-    // if(req.body.list=== "work"){
-    //     workItems.push(item);
-    //     res.redirect("/work");
-    // }else{
+    let item_name =req.body.newItem; 
         const item = new List({
             name: item_name
         });
         item.save();
         res.redirect("/")
-    // }
-
     
 })
 
